@@ -1,24 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="70y-Uo-KOx">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Cities Table View Controller-->
+        <scene sceneID="clL-b9-UUw">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <tableViewController id="70y-Uo-KOx" customClass="CitiesTableViewController" customModule="WeatherDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nVN-4L-d6t">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityCell" rowHeight="93" id="0D4-kw-rjZ" customClass="CityTableViewCell" customModule="WeatherDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="93"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0D4-kw-rjZ" id="jkN-NP-o6F">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="93"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ChB-d3-uaJ">
+                                            <rect key="frame" x="334" y="14" width="65" height="65"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="ChB-d3-uaJ" secondAttribute="height" multiplier="1:1" id="5oa-47-BIe"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Odessa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HqO-5x-ypT">
+                                            <rect key="frame" x="15" y="32" width="79.5" height="29"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+4°C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taN-p9-s2x">
+                                            <rect key="frame" x="273" y="32" width="56" height="29"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="taN-p9-s2x" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HqO-5x-ypT" secondAttribute="trailing" constant="20" id="27X-iE-lgA"/>
+                                        <constraint firstItem="HqO-5x-ypT" firstAttribute="leading" secondItem="jkN-NP-o6F" secondAttribute="leading" constant="15" id="CRe-BS-NF3"/>
+                                        <constraint firstItem="ChB-d3-uaJ" firstAttribute="height" secondItem="jkN-NP-o6F" secondAttribute="height" multiplier="0.7" id="I2I-TS-ghe"/>
+                                        <constraint firstItem="HqO-5x-ypT" firstAttribute="centerY" secondItem="jkN-NP-o6F" secondAttribute="centerY" id="QcN-47-roh"/>
+                                        <constraint firstItem="ChB-d3-uaJ" firstAttribute="leading" secondItem="taN-p9-s2x" secondAttribute="trailing" constant="5" id="Upc-2R-hCi"/>
+                                        <constraint firstAttribute="trailing" secondItem="ChB-d3-uaJ" secondAttribute="trailing" constant="15" id="gc1-cr-uwn"/>
+                                        <constraint firstItem="taN-p9-s2x" firstAttribute="centerY" secondItem="jkN-NP-o6F" secondAttribute="centerY" id="iVd-OG-biZ"/>
+                                        <constraint firstItem="ChB-d3-uaJ" firstAttribute="centerY" secondItem="jkN-NP-o6F" secondAttribute="centerY" id="mz2-E1-ZEU"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="cityLabel" destination="HqO-5x-ypT" id="vjS-XE-OGp"/>
+                                    <outlet property="temperatureLabel" destination="taN-p9-s2x" id="WLK-bZ-wFS"/>
+                                    <outlet property="weatherImage" destination="ChB-d3-uaJ" id="bqL-Eo-Hqe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="70y-Uo-KOx" id="Sz2-6v-R8K"/>
+                            <outlet property="delegate" destination="70y-Uo-KOx" id="c27-lM-lKF"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="35d-S9-pUX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="108.69565217391305" y="29.464285714285712"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
