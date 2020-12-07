@@ -10,49 +10,35 @@ import Alamofire
 
 class CitiesTableViewController: UITableViewController {
     
-    // source for tableView
-    var citiesList = ["Odesa", "Mykolaiv", "Dnipro", "Kharkov","Kiev", "Moscow", "Minsk"]
+    var citiesList = ["Odessa", "Mykolaiv", "Dnipro", "Kharkov", "Kiev", "Moscow", "Minsk"]
     
-    var citiesCoords = [String : (lon: Double, lat: Double)]()
-    
-    // get data and set cells properties
-    func fetchWeatherData(for city: String, to cell: CityTableViewCell) {
-        AF.request("https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=986900bfbe7c4bd5be6b29dbec16e89f").responseJSON { response in
-            if let data = response.data {
-                if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
-                    if let name = json["name"] as? String {
-                        cell.cityLabel.text = name
+    func getWeatherData(completion: @escaping( ([CurrentWeather]) -> Void )) {
+        var weatherData = [CurrentWeather]()
+        for city in citiesList {
+            let request = WeatherRequest(city: city)
+            request.getCurrentWeather { result in
+                switch result {
+                case.success(let cityWeather):
+                    weatherData.append(cityWeather)
+                    if weatherData.count == self.citiesList.count {
+                        completion(weatherData)
                     }
-                    if let coord = json["coord"] as? [String : Any] {
-                        if let lon = coord["lon"] as? Double, let lat = coord["lat"] as? Double {
-                            self.citiesCoords[cell.cityLabel.text!] = (lon: lon, lat: lat)
-                        }
-                    }
-                    if let main = json["main"] as? [String : Any] {
-                        if let temp = main["temp"] as? Double {
-                            let tempInC = temp.convertedFromKelvinToCelsius()
-                            cell.temperatureLabel.text = "\(tempInC > 0 ? "+" : "")\(tempInC)°C"
-                        }
-                    }
-                    if let weather = json["weather"] as? [[String : Any]] {
-                        if let icon = weather[0]["icon"] as? String {
-                            AF.request("https://openweathermap.org/img/wn/\(icon)@2x.png").responseData { response in
-                                if let data = response.data {
-                                    cell.weatherImage.image = UIImage(data: data)
-                                }
-                            }
-                        }
-                    }
+                case .failure(let error):
+                    print(error)
                 }
             }
         }
     }
-    
-
         
+    var citiesWeather = [CurrentWeather]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getWeatherData { weatherData in
+            self.citiesWeather = weatherData
+            self.tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
@@ -62,12 +48,13 @@ class CitiesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return citiesList.count
+        return citiesWeather.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityTableViewCell
-        fetchWeatherData(for: citiesList[indexPath.row], to: cell)
+        let cell = tableView.dequeueReusableCell(withIdentifier: CityTableViewCell.identifier, for: indexPath) as! CityTableViewCell
+        cell.currentWeather = citiesWeather[indexPath.row]
+        cell.configure()
         return cell
     }
     
@@ -83,16 +70,8 @@ class CitiesTableViewController: UITableViewController {
         if segue.identifier == "Show Forecast" {
             let destinationVC = segue.destination as! ForecastViewController
             let chosenCell = tableView.cellForRow(at: tableView.indexPathForSelectedRow!)! as! CityTableViewCell
-            destinationVC.cityName = chosenCell.cityLabel.text
-            destinationVC.cityCoordinates = citiesCoords[destinationVC.cityName!]
+            destinationVC.cityName = chosenCell.currentWeather?.name
+            destinationVC.cityCoordinates = chosenCell.currentWeather?.coordinates
         }
-    }
-}
-
-extension Double {
-    func convertedFromKelvinToCelsius() -> Double {
-        var celsius = (self - 273.15) * 10
-        celsius.round()
-        return celsius / 10
     }
 }

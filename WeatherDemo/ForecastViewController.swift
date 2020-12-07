@@ -119,7 +119,7 @@ class ForecastViewController: UIViewController, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DailyForecast", for: indexPath) as! DailyForecastCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyForecastCollectionViewCell.identifier, for: indexPath) as! DailyForecastCollectionViewCell
         fetchDailyWeather(for: cell, at: indexPath)
         cell.backgroundColor = indexPath.row % 2 != 0 ? UIColor.white : UIColor(white: 0.9, alpha: 1)
         return cell
@@ -132,17 +132,4 @@ class ForecastViewController: UIViewController, UICollectionViewDataSource, UICo
     }
 }
 
-extension Double {
-    func rounded(withPrecision numbersAfterPoint: Int) -> Double {
-        var base: Double = 1
-        for _ in 0..<numbersAfterPoint {
-            base *= 10
-        }
-        let temp = self * base
-        return temp.rounded() / base
-    }
-}
 
-extension Double {
-    static let HPAtoMMHG = 1.333333
-}
