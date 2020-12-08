@@ -9,15 +9,17 @@ import UIKit
 
 class CityTableViewCell: UITableViewCell {
     
-    var currentWeather: CurrentWeather?
+    var currentWeather: CurrentWeather? {
+        didSet {
+            self.configure()
+        }
+    }
     
     @IBOutlet weak var cityLabel: UILabel!
-    
     @IBOutlet weak var temperatureLabel: UILabel!
-    
     @IBOutlet weak var weatherImage: UIImageView!
     
-    func configure() {
+    private func configure() {
         cityLabel.text = currentWeather?.name
         if let temp = currentWeather?.temperature.convertedFromKelvinToCelsius().rounded(withPrecision: 0) {
             temperatureLabel.text = (temp > 0 ? "+" : "") + String(Int(temp)) + "°C"

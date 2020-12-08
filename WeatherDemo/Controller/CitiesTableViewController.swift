@@ -25,8 +25,7 @@ class CitiesTableViewController: UITableViewController {
                 self.tableView.reloadData()
             case .failure(let error):
                 print(error)
-            }
-            
+            } 
         }
     }
 
@@ -39,7 +38,6 @@ class CitiesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CityTableViewCell.identifier, for: indexPath) as! CityTableViewCell
         cell.currentWeather = citiesWeather[indexPath.row]
-        cell.configure()
         return cell
     }
     
@@ -55,8 +53,7 @@ class CitiesTableViewController: UITableViewController {
         if segue.identifier == "Show Forecast" {
             let destinationVC = segue.destination as! ForecastViewController
             let chosenCell = tableView.cellForRow(at: tableView.indexPathForSelectedRow!)! as! CityTableViewCell
-            destinationVC.cityName = chosenCell.currentWeather?.name
-            destinationVC.cityCoordinates = chosenCell.currentWeather?.coordinates
+            destinationVC.currentWeather = chosenCell.currentWeather
         }
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Denis Godovaniuk on 07.12.2020.
 //
 
-import UIKit
+import Foundation
 
 extension Double {
     
@@ -25,19 +25,5 @@ extension Double {
         }
         let temp = self * base
         return temp.rounded() / base
-    }
-}
-
-extension UITableViewCell {
-    
-    static var identifier: String {
-        return "\(self.classForCoder())"
-    }
-}
-
-extension UICollectionViewCell {
-    
-    static var identifier: String {
-        return "\(self.classForCoder())"
     }
 }
