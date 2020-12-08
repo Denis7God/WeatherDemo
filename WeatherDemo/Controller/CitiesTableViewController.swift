@@ -11,41 +11,26 @@ import Alamofire
 class CitiesTableViewController: UITableViewController {
     
     var citiesList = ["Odessa", "Mykolaiv", "Dnipro", "Kharkov", "Kiev", "Moscow", "Minsk"]
-    
-    func getWeatherData(completion: @escaping( ([CurrentWeather]) -> Void )) {
-        var weatherData = [CurrentWeather]()
-        for city in citiesList {
-            let request = WeatherRequest(city: city)
-            request.getCurrentWeather { result in
-                switch result {
-                case.success(let cityWeather):
-                    weatherData.append(cityWeather)
-                    if weatherData.count == self.citiesList.count {
-                        completion(weatherData)
-                    }
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
-    }
         
     var citiesWeather = [CurrentWeather]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getWeatherData { weatherData in
-            self.citiesWeather = weatherData
-            self.tableView.reloadData()
+        // retriving current weather for all cities and updating tableView in a comletion
+        WeatherRequest.getWeatherData(for: citiesList) { result in
+            switch result {
+            case .success(let weatherData):
+                self.citiesWeather = weatherData
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+            
         }
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return citiesWeather.count
@@ -59,7 +44,7 @@ class CitiesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.view.frame.height / 12
+        return self.view.frame.height / CGFloat(Constants.cellsInCitiesTVC)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
